@@ -1,0 +1,34 @@
+[workspace]
+resolver = "2"
+
+members = [
+  "calculator",
+  "tests",
+  # Please don't remove the following line, we use it to automatically
+  # detect insertion point for newly generated crates.
+  # @@INSERTION_POINT@@
+  "contracts/simple-lock",
+]
+
+[package]
+name = "ckb-cinnabar-scripts-manager"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chrono = "0.4.38"
+hex = "0.4.3"
+serde_json = "1.0"
+
+ckb-cinnabar-calculator = { path = "../cinnabar/calculate" }
+clap = { version = "4.5.13", features = ["derive"] }
+reqwest = { version = "0.12.5", defualt-features = false }
+tokio = { version = "1.39.2", features = ["rt-multi-thread"] }
+serde = { version = "1.0", features = ["derive"] }
+
+[profile.release]
+overflow-checks = true
+strip = true
+opt-level = 's'
+lto = true
+codegen-units = 1
