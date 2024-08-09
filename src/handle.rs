@@ -95,6 +95,7 @@ async fn send_and_record_transaction<T: RPC>(
         payer_address: payer_address.to_string(),
         owner_address: owner_address.map(|a| a.to_string()),
         type_id,
+        comment: None,
     };
     save_deployment_record(tx_record_path, deployment_record)
 }

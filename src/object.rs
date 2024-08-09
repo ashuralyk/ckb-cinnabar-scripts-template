@@ -85,6 +85,9 @@ pub struct DeploymentRecord {
     pub payer_address: String,
     pub owner_address: Option<String>,
     pub type_id: Option<String>,
+    // This field is not required, so you can edit in your <contract>.json file to add comment for cooperations
+    #[serde(default)]
+    pub comment: Option<String>,
 }
 
 impl DeploymentRecord {
