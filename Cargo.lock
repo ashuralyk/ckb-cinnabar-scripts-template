@@ -2032,20 +2032,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "proxy-locks-calculator"
-version = "0.1.0"
-dependencies = [
- "ckb-cinnabar-calculator",
-]
-
-[[package]]
-name = "proxy-locks-tests"
-version = "0.1.0"
-dependencies = [
- "ckb-cinnabar-simulator",
-]
-
-[[package]]
 name = "quote"
 version = "1.0.36"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2551,6 +2537,21 @@ name = "simple-lock"
 version = "0.1.0"
 dependencies = [
  "ckb-cinnabar-verifier",
+]
+
+[[package]]
+name = "simple-lock-calculator"
+version = "0.1.0"
+dependencies = [
+ "ckb-cinnabar-calculator",
+ "ckb-cinnabar-scripts-manager",
+]
+
+[[package]]
+name = "simple-lock-tests"
+version = "0.1.0"
+dependencies = [
+ "ckb-cinnabar-simulator",
 ]
 
 [[package]]

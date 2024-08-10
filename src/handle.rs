@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::{fs, path::PathBuf};
 
 use chrono::prelude::Utc;
@@ -8,7 +10,9 @@ use ckb_cinnabar_calculator::{
         AddOutputCellByInputIndex, AddSecp256k1SighashCellDep,
         AddSecp256k1SighashSignaturesWithCkbCli, BalanceTransaction,
     },
-    re_exports::{ckb_hash::blake2b_256, ckb_jsonrpc_types::OutputsValidator, ckb_sdk, eyre},
+    re_exports::{
+        ckb_hash::blake2b_256, ckb_jsonrpc_types::OutputsValidator, ckb_sdk, ckb_types::H256, eyre,
+    },
     rpc::{RpcClient, RPC},
     skeleton::ChangeReceiver,
 };
@@ -16,12 +20,21 @@ use ckb_sdk::Address;
 
 use crate::object::*;
 
-fn generate_deployment_record_path(network: &str, contract_name: &str) -> eyre::Result<PathBuf> {
+pub(crate) fn generate_deployment_record_path(
+    network: &str,
+    contract_name: &str,
+) -> eyre::Result<PathBuf> {
     let path = PathBuf::new().join("migration").join(network);
     if !path.exists() {
         fs::create_dir_all(&path)?;
     }
     Ok(path.join(format!("{contract_name}.json")))
+}
+
+pub(crate) fn load_deployment_record(path: &PathBuf) -> eyre::Result<DeploymentRecord> {
+    let file = fs::File::open(path)?;
+    let records: Vec<DeploymentRecord> = serde_json::from_reader(file)?;
+    records.last().cloned().ok_or(eyre::eyre!("empty record"))
 }
 
 fn save_deployment_record(path: PathBuf, record: DeploymentRecord) -> eyre::Result<()> {
@@ -35,12 +48,6 @@ fn save_deployment_record(path: PathBuf, record: DeploymentRecord) -> eyre::Resu
     let new_content = serde_json::to_string_pretty(&records)?;
     fs::write(path, new_content)?;
     Ok(())
-}
-
-fn load_deployment_record(path: &PathBuf) -> eyre::Result<DeploymentRecord> {
-    let file = fs::File::open(path)?;
-    let records: Vec<DeploymentRecord> = serde_json::from_reader(file)?;
-    records.last().cloned().ok_or(eyre::eyre!("empty record"))
 }
 
 fn load_contract_binary(contract_name: &str) -> eyre::Result<(Vec<u8>, [u8; 32])> {
@@ -75,7 +82,7 @@ async fn send_and_record_transaction<T: RPC>(
         .run()
         .await?;
     let occupied_capacity = skeleton.outputs[0].occupied_capacity().as_u64();
-    let type_id = skeleton.outputs[0].calc_type_hash().map(hex::encode);
+    let type_id = skeleton.outputs[0].calc_type_hash();
     let tx_hash = rpc
         .send_transaction(
             skeleton.into_transaction_view().data().into(),
@@ -88,19 +95,19 @@ async fn send_and_record_transaction<T: RPC>(
         date: Utc::now().to_rfc3339(),
         operation: operation.to_string(),
         version,
-        tx_hash: hex::encode(tx_hash),
+        tx_hash: tx_hash.into(),
         out_index: 0,
-        data_hash: contract_hash.map(hex::encode),
+        data_hash: contract_hash.map(|v| H256::from(v).into()),
         occupied_capacity,
-        payer_address: payer_address.to_string(),
-        owner_address: owner_address.map(|a| a.to_string()),
-        type_id,
+        payer_address: payer_address.into(),
+        owner_address: owner_address.map(Into::into),
+        type_id: type_id.map(Into::into),
         comment: None,
     };
     save_deployment_record(tx_record_path, deployment_record)
 }
 
-pub async fn deploy_contract(
+pub(crate) async fn deploy_contract(
     network: String,
     contract_name: String,
     version: String,
@@ -125,7 +132,7 @@ pub async fn deploy_contract(
             change_receiver: ChangeReceiver::Address(
                 owner_address.clone().unwrap_or(payer_address.clone()),
             ),
-            additinal_fee_rate: 2000,
+            additional_fee_rate: 2000,
         }),
         Box::new(AddSecp256k1SighashSignaturesWithCkbCli {
             signer_address: payer_address.clone(),
@@ -148,7 +155,7 @@ pub async fn deploy_contract(
     .await
 }
 
-pub async fn migrate_contract(
+pub(crate) async fn migrate_contract(
     network: String,
     contract_name: String,
     from_version: String,
@@ -177,7 +184,7 @@ pub async fn migrate_contract(
     let mut migrate_contract = DefaultInstruction::new(vec![
         Box::new(AddSecp256k1SighashCellDep {}),
         Box::new(AddInputCellByOutPoint {
-            tx_hash: record.tx_hash.parse()?,
+            tx_hash: record.tx_hash.into(),
             index: record.out_index,
             since: None,
         }),
@@ -213,7 +220,7 @@ pub async fn migrate_contract(
         Box::new(BalanceTransaction {
             balancer: payer_address.payload().into(),
             change_receiver: ChangeReceiver::Address(contract_address.clone()),
-            additinal_fee_rate: 2000,
+            additional_fee_rate: 2000,
         }),
         Box::new(AddSecp256k1SighashSignaturesWithCkbCli {
             signer_address: payer_address.clone(),
@@ -235,7 +242,7 @@ pub async fn migrate_contract(
     .await
 }
 
-pub async fn consume_contract(
+pub(crate) async fn consume_contract(
     network: String,
     contract_name: String,
     version: String,
@@ -260,7 +267,7 @@ pub async fn consume_contract(
     let consume_contract = DefaultInstruction::new(vec![
         Box::new(AddSecp256k1SighashCellDep {}),
         Box::new(AddInputCellByOutPoint {
-            tx_hash: record.tx_hash.parse()?,
+            tx_hash: record.tx_hash.into(),
             index: record.out_index,
             since: None,
         }),
@@ -269,7 +276,7 @@ pub async fn consume_contract(
             change_receiver: ChangeReceiver::Address(
                 receive_address.clone().unwrap_or(payer_address.clone()),
             ),
-            additinal_fee_rate: 2000,
+            additional_fee_rate: 2000,
         }),
         Box::new(AddSecp256k1SighashSignaturesWithCkbCli {
             signer_address: payer_address.clone(),

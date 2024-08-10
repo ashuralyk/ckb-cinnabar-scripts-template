@@ -1,7 +1,8 @@
 [package]
-name = "proxy-locks-calculator"
+name = "simple-lock-calculator"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 ckb-cinnabar-calculator = { path = "../../cinnabar/calculate" }
+ckb-cinnabar-scripts-manager = { path = ".." }
