@@ -1,8 +1,10 @@
 [package]
-name = "simple-lock-calculator"
+name = "blind-box-calculator"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-ckb-cinnabar-calculator = { path = "../../cinnabar/calculate" }
-ckb-cinnabar-scripts-manager = { path = ".." }
+ckb-always-success-script = "0.0.1"
+lazy_static = "1.5.0"
+
+ckb-cinnabar = { workspace = true }

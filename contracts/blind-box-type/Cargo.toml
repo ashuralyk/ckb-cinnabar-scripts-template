@@ -1,0 +1,9 @@
+[package]
+name = "blind-box-type"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ckb-std = "0.15.3"
+
+ckb-cinnabar-verifier = { workspace = true }

@@ -189,6 +189,31 @@ dependencies = [
 ]
 
 [[package]]
+name = "blind-box-calculator"
+version = "0.1.0"
+dependencies = [
+ "ckb-always-success-script",
+ "ckb-cinnabar",
+ "lazy_static",
+]
+
+[[package]]
+name = "blind-box-type"
+version = "0.1.0"
+dependencies = [
+ "ckb-cinnabar-verifier",
+ "ckb-std",
+]
+
+[[package]]
+name = "blind-box-type-tests"
+version = "0.1.0"
+dependencies = [
+ "blind-box-calculator",
+ "ckb-cinnabar",
+]
+
+[[package]]
 name = "block-buffer"
 version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -322,27 +347,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ckb-cinnabar-calculator"
-version = "0.1.0"
-dependencies = [
- "async-trait",
- "ckb-hash 0.117.0",
- "ckb-jsonrpc-types",
- "ckb-sdk",
- "ckb-types",
- "eyre",
- "futures",
- "hex",
- "jsonrpc-core",
- "reqwest 0.12.5",
- "rpassword",
- "secp256k1",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "ckb-cinnabar-scripts-manager"
+name = "ckb-cinnabar"
 version = "0.1.0"
 dependencies = [
  "chrono",
@@ -356,15 +361,28 @@ dependencies = [
 ]
 
 [[package]]
-name = "ckb-cinnabar-simulator"
+name = "ckb-cinnabar-calculator"
 version = "0.1.0"
 dependencies = [
+ "async-trait",
  "ckb-always-success-script",
  "ckb-chain-spec",
- "ckb-cinnabar-calculator",
+ "ckb-hash 0.117.0",
+ "ckb-jsonrpc-types",
  "ckb-script",
+ "ckb-sdk",
  "ckb-traits",
+ "ckb-types",
+ "eyre",
+ "futures",
+ "hex",
+ "jsonrpc-core",
  "rand 0.8.5",
+ "reqwest 0.12.5",
+ "rpassword",
+ "secp256k1",
+ "serde",
+ "serde_json",
  "tokio",
 ]
 
@@ -782,9 +800,9 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "4.5.13"
+version = "4.5.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0fbb260a053428790f3de475e304ff84cdbc4face759ea7a3e64c1edd938a7fc"
+checksum = "11d8838454fda655dafd3accb2b6e2bea645b9e4078abe84a22ceb947235c5cc"
 dependencies = [
  "clap_builder",
  "clap_derive",
@@ -792,9 +810,9 @@ dependencies = [
 
 [[package]]
 name = "clap_builder"
-version = "4.5.13"
+version = "4.5.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "64b17d7ea74e9f833c7dbf2cbe4fb12ff26783eda4782a8975b72f895c9b4d99"
+checksum = "216aec2b177652e3846684cbfe25c9964d18ec45234f0f5da5157b207ed1aab6"
 dependencies = [
  "anstream",
  "anstyle",
@@ -2261,6 +2279,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "runner"
+version = "0.1.0"
+dependencies = [
+ "ckb-cinnabar",
+]
+
+[[package]]
 name = "rustc-demangle"
 version = "0.1.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2530,28 +2555,6 @@ checksum = "75872d278a8f37ef87fa0ddbda7802605cb18344497949862c0d4dcb291eba60"
 dependencies = [
  "digest",
  "keccak",
-]
-
-[[package]]
-name = "simple-lock"
-version = "0.1.0"
-dependencies = [
- "ckb-cinnabar-verifier",
-]
-
-[[package]]
-name = "simple-lock-calculator"
-version = "0.1.0"
-dependencies = [
- "ckb-cinnabar-calculator",
- "ckb-cinnabar-scripts-manager",
-]
-
-[[package]]
-name = "simple-lock-tests"
-version = "0.1.0"
-dependencies = [
- "ckb-cinnabar-simulator",
 ]
 
 [[package]]
@@ -3064,7 +3067,7 @@ version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf221c93e13a30d793f7645a0e7762c55d169dbb0a49671918a2319d289b10bb"
 dependencies = [
- "windows-sys 0.59.0",
+ "windows-sys 0.48.0",
 ]
 
 [[package]]

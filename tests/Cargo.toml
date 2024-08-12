@@ -1,7 +1,8 @@
 [package]
-name = "simple-lock-tests"
+name = "blind-box-type-tests"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-ckb-cinnabar-simulator = { path = "../../cinnabar/simulate" }
+ckb-cinnabar = { workspace = true }
+blind-box-calculator = { path = "../calculator" }
