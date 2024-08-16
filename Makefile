@@ -58,7 +58,7 @@ run:
 # test, check, clippy and fmt here are provided for completeness,
 # there is nothing wrong invoking cargo directly instead of make.
 test:
-	cargo test $(CARGO_ARGS)
+	cd tests && cargo test $(CARGO_ARGS) -- --nocapture
 
 check:
 	cargo check $(CARGO_ARGS)

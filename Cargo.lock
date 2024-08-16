@@ -349,6 +349,7 @@ dependencies = [
 [[package]]
 name = "ckb-cinnabar"
 version = "0.1.0"
+source = "git+https://github.com/ashuralyk/ckb-cinnabar?rev=821c433#821c43351c9a273186e8586b4dce7275a86771fb"
 dependencies = [
  "chrono",
  "ckb-cinnabar-calculator",
@@ -363,6 +364,7 @@ dependencies = [
 [[package]]
 name = "ckb-cinnabar-calculator"
 version = "0.1.0"
+source = "git+https://github.com/ashuralyk/ckb-cinnabar?rev=821c433#821c43351c9a273186e8586b4dce7275a86771fb"
 dependencies = [
  "async-trait",
  "ckb-always-success-script",
@@ -389,6 +391,7 @@ dependencies = [
 [[package]]
 name = "ckb-cinnabar-verifier"
 version = "0.1.0"
+source = "git+https://github.com/ashuralyk/ckb-cinnabar?rev=821c433#821c43351c9a273186e8586b4dce7275a86771fb"
 dependencies = [
  "ckb-std",
 ]

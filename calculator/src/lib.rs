@@ -1,12 +1,12 @@
 use ckb_cinnabar::{
     calculator::{instruction::Instruction, re_exports::eyre, rpc::RPC, skeleton::ScriptEx},
-    load_latest_contract_deployment,
+    load_contract_deployment,
 };
 
 mod operation;
 pub use operation::*;
 
-pub const BLIND_BOX_PRICE: u64 = 100 * 100_000_000; // 100 CKB
+pub const BLIND_BOX_PRICE: u64 = 500 * 100_000_000; // 500 CKB
 pub const BLIND_BOX_NAME: &str = "blind-box-type";
 
 // An example instruction builder to build a partial transaction with minimal purchase-blind-box related cells
@@ -23,23 +23,19 @@ pub const BLIND_BOX_NAME: &str = "blind-box-type";
 //           - Type: Blind box type script
 //           - Capacity: User purchase payment
 //       - User normal cell (for receiving change)
-pub fn exmaple_build_purchase_blind_box<T: RPC>(
+pub fn build_purchase_blind_box<T: RPC>(
     network: &str,
     purchase_count: u8,
-    blind_box_series: BlindBoxSeries,
     buyer: ScriptEx,
     blind_box_server: ScriptEx,
 ) -> eyre::Result<Instruction<T>> {
-    let mut record =
-        load_latest_contract_deployment(network.parse()?, BLIND_BOX_NAME, None).unwrap_or_default();
-    record.name = BLIND_BOX_NAME.to_string();
+    let deployment = load_contract_deployment(network, BLIND_BOX_NAME, "../deployment", None)?;
     let purchase = Instruction::<T>::new(vec![
-        Box::new(AddBlindBoxCelldep { record }),
+        Box::new(AddBlindBoxCelldep { deployment }),
         Box::new(AddBlindBoxOutputCell {
             server: blind_box_server,
             buyer,
             purchase_count,
-            blind_box_series,
         }),
     ]);
     Ok(purchase)
@@ -57,25 +53,21 @@ pub fn exmaple_build_purchase_blind_box<T: RPC>(
 //   - Outputs:
 //       - Blind box output cell
 //           - Lock: User wallet lock
-//           - Type: Blind box series type script (which means the real NFT/DOB asset)
+//           - Type: Asset type script (for simplicity, here is None, but in real world, it should be filled)
 //       ...
 //       - Blind box Server normal cell (for receiving change)
-pub fn example_build_open_blind_box<T: RPC>(
+pub fn build_open_blind_box<T: RPC>(
     network: &str,
-    blind_box_series: BlindBoxSeries,
     blind_box_server: ScriptEx,
 ) -> eyre::Result<Instruction<T>> {
-    let mut record =
-        load_latest_contract_deployment(network.parse()?, BLIND_BOX_NAME, None).unwrap_or_default();
-    record.name = BLIND_BOX_NAME.to_string();
+    let deployment = load_contract_deployment(network, BLIND_BOX_NAME, "../deployment", None)?;
     let open = Instruction::<T>::new(vec![
-        Box::new(AddBlindBoxCelldep { record }),
+        Box::new(AddBlindBoxCelldep { deployment }),
         Box::new(AddBlindBoxPurchaseInputCell {
             server: blind_box_server,
-            series: blind_box_series.clone(),
         }),
-        Box::new(AddBlindBoxOutputCellsBySeries {
-            series: blind_box_series,
+        Box::new(AddBlindBoxOutputCells {
+            purchase_cell_index: usize::MAX,
         }),
     ]);
     Ok(open)

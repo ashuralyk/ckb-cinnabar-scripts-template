@@ -2,17 +2,17 @@
 resolver = "2"
 
 members = [
-  "calculator",
-  "tests",
   # Please don't remove the following line, we use it to automatically
   # detect insertion point for newly generated crates.
   # @@INSERTION_POINT@@
+  "calculator",
+  "tests",
   "contracts/blind-box-type",
 ]
 
 [workspace.dependencies]
-ckb-cinnabar = { path = "../cinnabar" }
-ckb-cinnabar-verifier = { path = "../cinnabar/verify" }
+ckb-cinnabar = { git = "https://github.com/ashuralyk/ckb-cinnabar", rev = "821c433" }
+ckb-cinnabar-verifier = { git = "https://github.com/ashuralyk/ckb-cinnabar", rev = "821c433" }
 
 [package]
 name = "runner"
