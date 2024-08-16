@@ -192,17 +192,7 @@ dependencies = [
 name = "blind-box-calculator"
 version = "0.1.0"
 dependencies = [
- "ckb-always-success-script",
  "ckb-cinnabar",
- "lazy_static",
-]
-
-[[package]]
-name = "blind-box-type"
-version = "0.1.0"
-dependencies = [
- "ckb-cinnabar-verifier",
- "ckb-std",
 ]
 
 [[package]]
@@ -221,12 +211,6 @@ checksum = "3078c7629b62d3f0439517fa394996acacc5cbc91c5a20d8c658e77abd503a71"
 dependencies = [
  "generic-array",
 ]
-
-[[package]]
-name = "buddy-alloc"
-version = "0.5.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1f0d2da64a6a895d5a7e0724882825d50f83c13396b1b9f1878e19a024bab395"
 
 [[package]]
 name = "bumpalo"
@@ -325,7 +309,7 @@ dependencies = [
  "ckb-crypto",
  "ckb-dao-utils",
  "ckb-error",
- "ckb-hash 0.117.0",
+ "ckb-hash",
  "ckb-jsonrpc-types",
  "ckb-logger",
  "ckb-pow",
@@ -349,7 +333,7 @@ dependencies = [
 [[package]]
 name = "ckb-cinnabar"
 version = "0.1.0"
-source = "git+https://github.com/ashuralyk/ckb-cinnabar?rev=821c433#821c43351c9a273186e8586b4dce7275a86771fb"
+source = "git+https://github.com/ashuralyk/ckb-cinnabar#821c43351c9a273186e8586b4dce7275a86771fb"
 dependencies = [
  "chrono",
  "ckb-cinnabar-calculator",
@@ -364,12 +348,12 @@ dependencies = [
 [[package]]
 name = "ckb-cinnabar-calculator"
 version = "0.1.0"
-source = "git+https://github.com/ashuralyk/ckb-cinnabar?rev=821c433#821c43351c9a273186e8586b4dce7275a86771fb"
+source = "git+https://github.com/ashuralyk/ckb-cinnabar#821c43351c9a273186e8586b4dce7275a86771fb"
 dependencies = [
  "async-trait",
  "ckb-always-success-script",
  "ckb-chain-spec",
- "ckb-hash 0.117.0",
+ "ckb-hash",
  "ckb-jsonrpc-types",
  "ckb-script",
  "ckb-sdk",
@@ -386,14 +370,6 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
-]
-
-[[package]]
-name = "ckb-cinnabar-verifier"
-version = "0.1.0"
-source = "git+https://github.com/ashuralyk/ckb-cinnabar?rev=821c433#821c43351c9a273186e8586b4dce7275a86771fb"
-dependencies = [
- "ckb-std",
 ]
 
 [[package]]
@@ -475,17 +451,6 @@ dependencies = [
 
 [[package]]
 name = "ckb-gen-types"
-version = "0.112.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4a12020d50dd3757cde0fdc88d3837b7a2ab503fe38bd11be86ddace11318c77"
-dependencies = [
- "cfg-if 1.0.0",
- "ckb-hash 0.112.1",
- "molecule 0.7.5",
-]
-
-[[package]]
-name = "ckb-gen-types"
 version = "0.117.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b72a8f82b47ddcc49c68a1fbaf4e6b105c85747b44cdb9bb2d2b37e55e85e5e"
@@ -493,19 +458,10 @@ dependencies = [
  "cfg-if 1.0.0",
  "ckb-error",
  "ckb-fixed-hash",
- "ckb-hash 0.117.0",
+ "ckb-hash",
  "ckb-occupied-capacity",
- "molecule 0.8.0",
+ "molecule",
  "numext-fixed-uint",
-]
-
-[[package]]
-name = "ckb-hash"
-version = "0.112.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "25af660fc8746f7c756444e6aa47ede9a874206563b6a1ce1b230a5b86519392"
-dependencies = [
- "blake2b-ref",
 ]
 
 [[package]]
@@ -598,7 +554,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f0f7965a9f0c35ab68f71a008cd7186b4dea02bd8d17dc7263f927d005ee6a52"
 dependencies = [
  "byteorder",
- "ckb-hash 0.117.0",
+ "ckb-hash",
  "ckb-types",
  "eaglesong",
  "log",
@@ -639,7 +595,7 @@ dependencies = [
  "byteorder",
  "ckb-chain-spec",
  "ckb-error",
- "ckb-hash 0.117.0",
+ "ckb-hash",
  "ckb-logger",
  "ckb-traits",
  "ckb-types",
@@ -661,7 +617,7 @@ dependencies = [
  "ckb-chain-spec",
  "ckb-crypto",
  "ckb-dao-utils",
- "ckb-hash 0.117.0",
+ "ckb-hash",
  "ckb-jsonrpc-types",
  "ckb-mock-tx-types",
  "ckb-resource",
@@ -688,18 +644,6 @@ dependencies = [
  "thiserror",
  "tokio",
  "tokio-util",
-]
-
-[[package]]
-name = "ckb-std"
-version = "0.15.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9357d9464ed36a8e542a7d588e894aff25ccb0cdd66221ac94e76bc69ca3ad55"
-dependencies = [
- "buddy-alloc",
- "cc",
- "ckb-gen-types 0.112.1",
- "gcd",
 ]
 
 [[package]]
@@ -736,15 +680,15 @@ dependencies = [
  "ckb-constant",
  "ckb-error",
  "ckb-fixed-hash",
- "ckb-gen-types 0.117.0",
- "ckb-hash 0.117.0",
+ "ckb-gen-types",
+ "ckb-hash",
  "ckb-merkle-mountain-range",
  "ckb-occupied-capacity",
  "ckb-rational",
  "derive_more",
  "golomb-coded-set",
  "merkle-cbt",
- "molecule 0.8.0",
+ "molecule",
  "numext-fixed-uint",
  "once_cell",
  "paste",
@@ -1170,12 +1114,6 @@ dependencies = [
  "pin-utils",
  "slab",
 ]
-
-[[package]]
-name = "gcd"
-version = "2.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d758ba1b47b00caf47f24925c0074ecb20d6dfcffe7f6d53395c0465674841a"
 
 [[package]]
 name = "generic-array"
@@ -1740,15 +1678,6 @@ dependencies = [
  "libc",
  "wasi 0.11.0+wasi-snapshot-preview1",
  "windows-sys 0.52.0",
-]
-
-[[package]]
-name = "molecule"
-version = "0.7.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d4fd9767ab5e5f2ea40f71ff4c8bdb633c50509052e093c2fdd0e390a749dfa3"
-dependencies = [
- "cfg-if 1.0.0",
 ]
 
 [[package]]
